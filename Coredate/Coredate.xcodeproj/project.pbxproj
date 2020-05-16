@@ -18,6 +18,7 @@
 		05793BB3246758F70073F27C /* CreateCompanyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05793BB2246758F70073F27C /* CreateCompanyController.swift */; };
 		05F2F016246CE66700FCC440 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F2F015246CE66700FCC440 /* UIColorExtension.swift */; };
 		05F2F019246CF5F200FCC440 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 05F2F017246CF5F200FCC440 /* CoreDataModel.xcdatamodeld */; };
+		05F2F01B246E075800FCC440 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F2F01A246E075800FCC440 /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		05793BB2246758F70073F27C /* CreateCompanyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCompanyController.swift; sourceTree = "<group>"; };
 		05F2F015246CE66700FCC440 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		05F2F018246CF5F200FCC440 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		05F2F01A246E075800FCC440 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				05793BB2246758F70073F27C /* CreateCompanyController.swift */,
 				05F2F015246CE66700FCC440 /* UIColorExtension.swift */,
 				05F2F017246CF5F200FCC440 /* CoreDataModel.xcdatamodeld */,
+				05F2F01A246E075800FCC440 /* CoreDataManager.swift */,
 			);
 			path = Coredate;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				05793B832466484B0073F27C /* SceneDelegate.swift in Sources */,
 				05793BB12467535C0073F27C /* Company.swift in Sources */,
 				05F2F019246CF5F200FCC440 /* CoreDataModel.xcdatamodeld in Sources */,
+				05F2F01B246E075800FCC440 /* CoreDataManager.swift in Sources */,
 				05F2F016246CE66700FCC440 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,6 +11,14 @@ import CoreData
 
 class CompaniesController: UITableViewController, CreateCompanyControllerDelegate {
     
+    func didEditCompany(company: Company) {
+           // update my tableview somehow
+        let row = companies.firstIndex(of: company)
+           let reloadIndexPath = IndexPath(row: row!, section: 0)
+           tableView.reloadRows(at: [reloadIndexPath], with: .middle)
+       }
+       
+    
     func didAddCompany(company: Company) {
         companies.append(company)
         let newIndexPath = IndexPath(row: companies.count - 1, section: 0)
@@ -41,14 +49,8 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
     
     private func fetchCompanies() {
         // attempt my core data fetch somehow..
-        let persistentContainer = NSPersistentContainer(name: "CoreDataModel")
-        persistentContainer.loadPersistentStores { (storeDescription, err) in
-            if let err = err {
-                fatalError("Loading of store failed: \(err)")
-            }
-        }
-        
-        let context = persistentContainer.viewContext
+       
+        let context = CoreDataManager.shared.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<Company>(entityName: "Company")
         
@@ -58,6 +60,9 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
             companies.forEach({ (company) in
                 print(company.name ?? "")
             })
+            
+            self.companies = companies
+            self.tableView.reloadData()
             
         } catch let fetchErr {
             print("Failed to fetch companies:", fetchErr)
@@ -125,6 +130,64 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         return cell
     }
     
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        let company = self.companies[indexPath.row]
+//        self.companies.remove(at: indexPath.row)
+//        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//        let context = CoreDataManager.shared.persistentContainer.viewContext
+//
+//        context.delete(company)
+//        do {
+//            try context.save()
+//        } catch let saveErr {
+//            print("Failed to delete company:", saveErr)
+//        }
+//
+//
+//    }
+    func delete(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        let company = companies[indexPath.row]
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, _) in
+            self.companies.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .bottom)
+            
+            // delete the company from Core Data
+            let context = CoreDataManager.shared.persistentContainer.viewContext
+            
+            context.delete(company)
+            
+            do {
+                try context.save()
+            } catch let saveErr {
+                print("Failed to delete company:", saveErr)
+            }
+        }
+        return action
+    }
+    
+    func edit(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        let action  = UIContextualAction(style: .normal, title: "Edit") { (action, view, escaping) in
+            
+            let editCompanyController = CreateCompanyController()
+                   editCompanyController.delegate = self
+            editCompanyController.company = self.companies[indexPath.row]
+                   let navController = CustomNavigationController(rootViewController: editCompanyController)
+            self.present(navController, animated: true, completion: nil)
+                    }
+        return action
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = self.delete(forRowAtIndexPath: indexPath)
+        let edit = self.edit(forRowAtIndexPath: indexPath)
+        let swipe = UISwipeActionsConfiguration(actions: [delete, edit])
+        return swipe
+    }
+    
+   
+    
+    
+     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return companies.count
 //        return 8 //arbitrary
